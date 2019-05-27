@@ -1,0 +1,49 @@
+{
+  "name": "<% elementName %>",
+  "version": "0.0.0",
+  "description": "Web component <% elementName %> is for displaying a tree of data radially.",
+  "author": "tm-radial-tree",
+  "homepage": "https://tmcmaster.github..io/<% elementName %>/",
+  "license": "MIT",
+  "repository": "https://github.com/tmcmaster/<% elementName %>/",
+  "scripts": {
+    "status": "git status && npm run release:status && npm run site:status",
+    "clean": "npm run release:clean && npm run site:clean",
+    "build": "npm run release:build && npm run site:build",
+    "checkout": "npm run release:checkout && npm run site:checkout",
+    "refresh": "npm run release:refresh && npm run site:refresh",
+    "rebuild": "npm run release:rebuild && npm run site:rebuild",
+
+    "site:dev": "owc-dev-server",
+    "site:test": "owc-dev-server --open /demo",
+    "site:serve": "http-server dist/site -c-1",
+
+    "site:status": "cd dist/site && git status",
+    "site:clean": "rimraf dist/site",
+    "site:checkout": "git clone -b gh-pages git@github.com:tmcmaster/<% elementName %>.git dist/site",
+    "site:refresh": "npm run site:clean && npm run site:checkout",
+    "site:build": "rollup -c rollup-site.config.js && cp demo/index.html dist/site/",
+    "site:rebuild": "npm run site:refresh && npm run site:build",
+
+    "release:status": "cd dist/release && git status",
+    "release:clean": "rimraf dist/release",
+    "release:checkout": "git clone -b release git@github.com:tmcmaster/<% elementName %>.git dist/release",
+    "release:refresh": "npm run release:clean && npm run release:checkout",
+    "release:build": "rollup -c rollup-release.config.js",
+    "release:rebuild": "npm run release:refresh && npm run release:build"
+  },
+  "dependencies": {
+    "@polymer/paper-input": "^3.0.2",
+    "d3": "^5.9.2",
+    "lit-element": "^2.0.1",
+    "lit-html": "^1.0.0"
+  },
+  "devDependencies": {
+    "owc-dev-server": "^0.3.0",
+    "@open-wc/demoing-storybook": "^0.2.0",
+    "@open-wc/building-rollup": "^0.3.0",
+    "http-server": "^0.11.1",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.6.0"
+  }
+}

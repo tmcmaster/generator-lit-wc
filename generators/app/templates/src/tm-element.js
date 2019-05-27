@@ -11,7 +11,7 @@ class NewWebComponent extends LitElement {
 
     constructor() {
         super();
-        this.heading = 'Hello world!';
+        this.heading = 'Hello World! from the <%= elementName %> web component';
     }
 
     // noinspection JSUnusedGlobalSymbols
@@ -22,7 +22,7 @@ class NewWebComponent extends LitElement {
           display: inline-block;
         }
         h2 {
-            color: red;
+            color: gray;
         }
       </style>
       <h2>${this.heading}</h2>

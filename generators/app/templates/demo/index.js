@@ -1,6 +1,6 @@
 import {html, render} from 'lit-html';
 
-import '../src/<%= elementName %>.js';
+import '../src/index.js';
 
 render(html`
     <style>
@@ -10,9 +10,14 @@ render(html`
     body {
       background-color: #ededed;
     }
+    
+    body > * {
+        clear: both;
+        float: left;
+    }
   </style>
   
-  <<% elementName %>></<% elementName %>>
+<%- elementBlock %>
   
 
 `, document.querySelector('body'));

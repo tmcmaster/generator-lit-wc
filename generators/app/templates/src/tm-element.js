@@ -32,4 +32,4 @@ class NewWebComponent extends LitElement {
 
 }
 
-window.customElements.define('<% elementName %>', NewWebComponent);
+window.customElements.define('<%= elementName %>', NewWebComponent);

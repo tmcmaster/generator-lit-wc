@@ -1,17 +1,17 @@
 # \<tm-radial-tree>
 
-Web component <% elementName %> is for displaying a tree of data radially.
+<%= description %>
 
 ## Installation
 ```bash
-npm i <% elementName %>
+npm i <%= elementName %>
 ```
 
 ## Usage
 ```html
 <script type="module">
-  import '<% elementName %>';
+  import '<%= elementName %>';
 </script>
 
-<<% elementName %>></<% elementName %>>
+<<%= elementName %>></<%= elementName %>>
 ```

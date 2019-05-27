@@ -1,6 +1,6 @@
-import { html, render } from 'lit-html';
+import {html, render} from 'lit-html';
 
-import '../src/<% elementName %>.js';
+import '../src/<%= elementName %>.js';
 
 render(html`
     <style>

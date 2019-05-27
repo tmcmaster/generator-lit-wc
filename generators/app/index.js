@@ -4,36 +4,40 @@ module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
 
-        this.option('set', {
+        this.option('ignore-folder', {
             type: Boolean,
             default: false,
-            description: 'set : configure to support a set of web components.',
+            description: '--ignore-folder : Do not use the folder name as an element name.',
         });
 
-        this.elementNames = (this.args && this.args.length > 0 ? this.args : []);
-        this.elementName = (this.elementNames.length > 0 ? this.elementNames[0] : undefined);
-        this.setMode = opts.set || this.elementNames.length > 1;
+        this.ignoreFolder = opts['ignore-folder'];
+        const folderName = this.appname.replace(/\s+/g, '-');
 
-        console.log('Set Mode:', this.setMode);
+        const elementNames = (this.args && this.args.length > 0 ? this.args : []);
+        const elementName = (this.ignoreFolder ? (elementNames.length > 0 ? elementNames[0] : undefined) : folderName);
+
+
+        this.elementName = elementName;
+        this.elementNames = elementNames;
+
+        console.log('Element Name:', this.elementName);
         console.log('Element Names:', this.elementNames);
     }
+
+
 
     // noinspection JSUnusedGlobalSymbols
     async prompting() {
         const self = this;
 
-        const prompts = [];
-        if (this.elementName === undefined) {
-            prompts.push({
-                type: 'input',
-                name: 'elementName',
-                message: 'Element Name',
-                default: this.appname.replace(/\s+/g, '-'), // Default to solution folder name
-            });
-        }
+        const promptList = (this.elementName === undefined ? [ {
+            type: 'input',
+            name: 'elementName',
+            message: 'Element Name',
+            default: 'tm-element'
+        } ] : []);
 
-        self.answers = await self.prompt([
-            ...prompts,
+        self.answers = await self.prompt(...promptList, [
             {
                 type: 'input',
                 name: 'description',
@@ -46,13 +50,22 @@ module.exports = class extends Generator {
     // noinspection JSUnusedGlobalSymbols
     writing() {
         const self = this;
-        this.elementName = (this.elementNames.length > 0 ? this.elementNames[0] : this.answers.elementName);
-        this.elementNames = this.elementNames;
-        this.description = self.answers.description;
 
-        console.log('Element Name: ', this.elementName);
-        console.log('Element Namea: ', this.elementNames);
-        console.log('Description: ', this.description);
+        this.elementName = (this.elementName === undefined ? this.answers.elementName : this.elementName);
+        this.elementName = checkElementName(this.elementName);
+
+        this.description = self.answers.description;
+        if (!this.ignoreFolder || this.elementNames.length === 0) {
+            this.elementNames.unshift(this.elementName);
+        }
+
+
+
+        this.elementNames = checkElementNames(this.elementNames);
+
+        console.log('## Element Name: ', this.elementName);
+        console.log('## Element Names: ', this.elementNames);
+        console.log('## Description: ', this.description);
 
 
         // noinspection JSUnresolvedFunction
@@ -90,8 +103,6 @@ module.exports = class extends Generator {
             self.templatePath('rollup-site.config.js'),
             self.destinationPath('rollup-site.config.js')
         );
-
-
 
         this.writeDemoFiles();
         this.writeSrcFiles();
@@ -156,3 +167,15 @@ module.exports = class extends Generator {
         }).join('\n');
     }
 };
+
+function checkElementNames(elementNames) {
+
+
+    return (elementNames === undefined ? undefined
+        : elementNames.map((e) => checkElementName(e)));
+}
+
+function checkElementName(elementName) {
+    return (elementName === undefined ? undefined
+        : (elementName.includes('-') ? elementName : 'tm-' + elementName));
+}

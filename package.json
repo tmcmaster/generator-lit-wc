@@ -1,5 +1,5 @@
 {
-  "name": "generator-lit-wc",
+  "name": "generator-lit",
   "version": "1.0.0",
   "description": "A Yeoman generator for starting lit-element projects.",
   "main": "index.js",

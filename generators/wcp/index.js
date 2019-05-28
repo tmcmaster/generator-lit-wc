@@ -1,6 +1,11 @@
+// noinspection JSUnresolvedFunction
 const Generator = require('yeoman-generator');
+// noinspection JSUnresolvedFunction
 const process = require('process');
+// noinspection JSUnresolvedFunction
+const common = require('../../lib/common.js');
 
+// noinspection JSUnresolvedVariable
 module.exports = class extends Generator {
     constructor(args, opts) {
         super(args, opts);
@@ -12,8 +17,8 @@ module.exports = class extends Generator {
         });
 
         const folderName = process.cwd().split('/').pop();
-
-        this._initialiseAtStartup(args, opts, folderName);
+        this.elementNames = common.createElementNamesInitial(args, opts, folderName);
+        console.log('== Element Names: ', this.elementNames);
     }
 
     // noinspection JSUnusedGlobalSymbols
@@ -31,7 +36,7 @@ module.exports = class extends Generator {
                 type: 'input',
                 name: 'description',
                 message: 'Element Description',
-                default: 'Web component that extends LitElement.', // Default to solution folder name
+                default: 'Web component that extends LitElement.'
             }
         ]);
     }
@@ -45,31 +50,10 @@ module.exports = class extends Generator {
         this._writeSrcFiles();
     }
 
-    _initialiseAtStartup(args, opts, folderName) {
-        this.ignoreFolder = opts['ignore-folder'];
-
-        this.elementNames = (args && args.length > 0 ? args : []);
-        this.elementName = (this.ignoreFolder ? (this.elementNames.length > 0 ? this.elementNames[0] : 'tm-element') : folderName);
-
-        if (!this.ignoreFolder) {
-            this.elementNames.unshift(folderName);
-        }
-
-        this.elementNames = checkElementNames(this.elementNames);
-        this.elementName = checkElementName(this.elementName);
-    }
-
     _processAnswers() {
         this.description = this.answers.description;
-
-        if (this.elementNames.length === 0) {
-            this.elementNames.push('element');
-        }
-
-        this.elementNames = this.answers.elementNames.replace(/,/g, ' ').replace(/\s+/g, ' ').split(' ');
-        this.elementNames = checkElementNames(this.elementNames);
+        this.elementNames = common.createElementNamesAnswers(this.answers.elementNames);
         this.elementName = this.elementNames[0];
-
         console.log('## Element Name: ', this.elementName);
         console.log('## Element Names: ', this.elementNames);
         console.log('## Description: ', this.description);
@@ -121,7 +105,7 @@ module.exports = class extends Generator {
     _writeDemoFiles() {
         const self = this;
 
-        const elementBlock = generateElementBlockDemo(this.elementNames);
+        const elementBlock = common.generateElementBlockDemo(self.elementNames);
 
         // noinspection JSValidateTypes
         self.fs.copy(
@@ -140,7 +124,7 @@ module.exports = class extends Generator {
 
     _writeSrcFiles() {
         const self = this;
-        const importBlock = generateImportBlockSrc(this.elementNames);
+        const importBlock = common.generateImportBlockSrc(self.elementNames);
 
         // noinspection JSUnresolvedFunction
         this.fs.copyTpl(
@@ -156,41 +140,13 @@ module.exports = class extends Generator {
                 self.templatePath('src/tm-element.js.template'),
                 self.destinationPath('src/' + elementName + '.js'), {
                     elementName: elementName,
-                    className: dashToCamel(elementName, true)
+                    className: common.dashToCamel(elementName, true)
                 }
             );
         });
 
         console.log('###############');
     }
-
-
 };
 
 
-function generateImportBlockSrc(elementNames) {
-    return elementNames.map((elementName) => {
-        return `import './${elementName}';`
-    }).join('\n');
-}
-
-function generateElementBlockDemo(elementNames) {
-    return elementNames.map((elementName) => {
-        return `  <${elementName}></${elementName}>`
-    }).join('\n');
-}
-
-function checkElementNames(elementNames) {
-    return (elementNames === undefined ? undefined
-        : elementNames.map((e) => checkElementName(e)));
-}
-
-function checkElementName(elementName) {
-    return (elementName === undefined ? undefined
-        : (elementName.includes('-') ? elementName : 'tm-' + elementName));
-}
-
-function dashToCamel(value, capitaliseFirst) {
-    let result = value.toLowerCase().replace(/\b-([a-z])/g, (_, word) => word[0].toUpperCase());
-    return (capitaliseFirst ? result[0].toUpperCase() + result.slice(1, result.length) : result);
-}

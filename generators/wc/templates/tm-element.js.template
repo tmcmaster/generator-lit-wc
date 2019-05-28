@@ -1,6 +1,6 @@
 import {html, LitElement} from 'lit-element';
 
-class NewWebComponent extends LitElement {
+class <%= className %> extends LitElement {
 
     // noinspection JSUnusedGlobalSymbols
     static get properties() {
@@ -32,4 +32,4 @@ class NewWebComponent extends LitElement {
 
 }
 
-window.customElements.define('<%= elementName %>', NewWebComponent);
+window.customElements.define('<%= elementName %>', <%= className %>);

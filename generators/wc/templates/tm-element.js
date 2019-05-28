@@ -1,1 +1,0 @@
-../../wcp/templates/src/tm-element.js

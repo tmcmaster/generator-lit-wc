@@ -1,4 +1,4 @@
-# \<tm-radial-tree>
+# <%= elementName %>
 
 <%= description %>
 

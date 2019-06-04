@@ -86,7 +86,6 @@ module.exports = class extends Generator {
             'src/redux',
             'src/views',
             'src/index.ts',
-            'src/manifest.webmanifest',
             'src/styles.css',
             'src/sw.js',
             'tsconfig.json',
@@ -97,7 +96,8 @@ module.exports = class extends Generator {
             'LICENSE',
             'package.json',
             'README.md',
-            'src/index.html'
+            'src/index.html',
+            'src/manifest.webmanifest'
         ];
 
         COPY_WITH_VARIABLES.forEach(file => {

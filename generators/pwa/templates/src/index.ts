@@ -1,5 +1,5 @@
-import './styles.css';
-import './views/todo-view';
+// import './styles.css';
+import './views/user-view';
 import { Router } from '@vaadin/router';
 
 window.addEventListener('load', () => {
@@ -11,26 +11,16 @@ function initRouter() {
   const router = new Router(document.querySelector('main'));
 
   const pathPrefix = '/';
-  // const pathPrefix = '/pwa-play/';
+  //const pathPrefix = '/pwa-play/';
 
   router.setRoutes([
     {
       path: pathPrefix,
-      component: 'todo-view'
+      component: 'user-view'
     },
     {
-      path: pathPrefix + 'todo',
-      component: 'todo-view'
-    },
-    {
-      path: pathPrefix + 'wired',
-      component: 'wired-todo-view',
-      action: () => import(/* webpackChunkName: "wired" */ './views/wired-todo-view')
-    },
-    {
-      path: pathPrefix + 'stats',
-      component: 'stats-view',
-      action: () => import(/* webpackChunkName: "stats" */ './views/stats-view')
+      path: pathPrefix + 'users',
+      component: 'user-view'
     },
     {
       path: '(.*)',

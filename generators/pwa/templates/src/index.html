@@ -18,42 +18,80 @@
     <meta name="mobile-web-app-title" content="TutorialApp" />
 
     <style>
-      wired-helper {
-        display: inline-block;
-        padding: 5px 0 0 20px;
-        float: right:
+      html {
+        /*margin: 0px;*/
+        /*height: 100%;*/
+        /*width: 100%;*/
       }
       body {
-        height: 100vh;
-        width: 100vw;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top:0;
+        bottom:0;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         justify-content: stretch;
+        box-sizing: border-box;
+        //border: solid red 2px;
+      }
+
+      header {
+        flex: none;
+        background: #f4f5f7;
+        color: #2a3443;
+        text-align: center;
+        box-sizing: border-box;
+        //border: solid red 2px;
       }
 
       nav {
+        flex: none;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        box-sizing: border-box;
+        //border: solid blue 2px;
       }
+
       main {
+        flex: 10;
         display: inline-block;
+        width:100%;
         box-sizing: border-box;
         flex: auto;
+        box-sizing: border-box;
+        //border: solid green 2px;
+        overflow: scroll;
+      }
+
+      footer {
+        flex: none;
+        box-sizing: border-box;
+        //border: solid yellow 2px;
+      }
+
+      nav {
+        display: inline-block;
+        padding: 5px;
+        //border:solid blue 1px;
+      }
+      .admin {
+        float:right;
       }
     </style>
   </head>
 
   <body>
-    <header><h1>Todo app</h1></header>
+    <header><h1>PWA Template</h1></header>
     <nav>
-      <a href="todo">Todos</a>
-      <a href="wired">Wired</a>
-      <a href="stats">Stats</a>
-      <wired-helper debug="true"></wired-helper>
+      <a href="users" class="admin">User Administration</a>
     </nav>
 
     <main></main>
+
+    <footer>Footer</footer>
     <script src="./vendor/webcomponents-loader.js"></script>
   </body>
 </html>

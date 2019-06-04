@@ -38,6 +38,7 @@ module.exports = class extends Generator {
             'build-utils',
             'src/@types',
             'src/img',
+            'src/actions',
             'src/models',
             'src/redux',
             'src/views',

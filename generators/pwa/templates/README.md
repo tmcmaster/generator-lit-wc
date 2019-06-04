@@ -1,4 +1,4 @@
-# <%= applicationName %>
+# tm-app
 
-<%= description %>
+Progressive Web Application
 

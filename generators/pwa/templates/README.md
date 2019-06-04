@@ -1,4 +1,4 @@
-# tm-app
+### <%= appTitle %> (<%= projectName %>)
 
-Progressive Web Application
+<%= appDescription %>
 

@@ -1,6 +1,22 @@
 // noinspection JSUnresolvedFunction
 const Generator = require('yeoman-generator');
 
+const DEFAULTS = {
+    author: {
+        name: 'Tim McMaster',
+        email: 'tim@mcmaster.id.au'
+    },
+    project: {
+        name: 'pwa-example',
+        description: 'Progressive Web Application Example'
+    },
+    app: {
+        title: 'PWA Example',
+        iconText: 'PWA',
+        description: 'Progressive Web Application Example'
+    }
+};
+
 // noinspection JSUnresolvedVariable
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -12,15 +28,41 @@ module.exports = class extends Generator {
         this.answers = await this.prompt([
             {
                 type: 'input',
-                name: 'applicationName',
-                message: 'Application Name',
-                default: 'tm-app'
+                name: 'authorName',
+                message: 'Author Name',
+                default: DEFAULTS.author.name
+            },{
+                type: 'input',
+                name: 'authorEmail',
+                message: 'Author Email',
+                default: DEFAULTS.author.email
+            },{
+                type: 'input',
+                name: 'projectName',
+                message: 'Project Name',
+                default: DEFAULTS.project.name
+            },{
+                type: 'input',
+                name: 'projectDescription',
+                message: 'Project Description',
+                default: DEFAULTS.project.description
+            },{
+                type: 'input',
+                name: 'appTitle',
+                message: 'Application Title',
+                default: DEFAULTS.app.title
             },
             {
                 type: 'input',
-                name: 'description',
-                message: 'Description',
-                default: 'Progressive Web Application'
+                name: 'appIconText',
+                message: 'Application Icon Text',
+                default: DEFAULTS.app.iconText
+            },
+            {
+                type: 'input',
+                name: 'appDescription',
+                message: 'Application Description',
+                default: DEFAULTS.app.description
             }
         ]);
     }
@@ -35,6 +77,7 @@ module.exports = class extends Generator {
 
     _writeProjectFiles(answers) {
         const COPY_AS_IS = [
+            '.gitignore',
             'build-utils',
             'src/@types',
             'src/img',
@@ -42,34 +85,31 @@ module.exports = class extends Generator {
             'src/models',
             'src/redux',
             'src/views',
-            'src/index.html',
             'src/index.ts',
             'src/manifest.webmanifest',
             'src/styles.css',
             'src/sw.js',
-            'package.json',
-            'README.md',
+            'tsconfig.json',
             'webpack.config.js'
         ];
 
         const COPY_WITH_VARIABLES = [
-            '.gitignore',
             'LICENSE',
-            'tsconfig.json'
+            'package.json',
+            'README.md',
+            'src/index.html'
         ];
 
-        COPY_AS_IS.forEach(file => {
+        COPY_WITH_VARIABLES.forEach(file => {
             // noinspection JSUnresolvedFunction
             this.fs.copyTpl(
                 this.templatePath(file),
-                this.destinationPath(file), {
-                    applicationName: answers.applicationName,
-                    description: answers.description
-                }
+                this.destinationPath(file),
+                this.answers
             );
         });
 
-        COPY_WITH_VARIABLES.forEach(file => {
+        COPY_AS_IS.forEach(file => {
             // noinspection JSValidateTypes
             this.fs.copy(
                 this.templatePath(file),

@@ -1,10 +1,10 @@
 {
-  "name": "Todo App",
-  "short_name": "Todo",
+  "name": "<%= applicationName %>",
+  "short_name": "<%= shortName %>",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#2A3443",
-  "description": "LitElement tutorial",
+  "description": "<%= description %>",
   "theme_color": "#2A3443",
   "icons": [
     {
